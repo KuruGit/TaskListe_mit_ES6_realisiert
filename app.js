@@ -1,7 +1,7 @@
 //UI Variablen definieren
 const form = document.querySelector('#task-form');
 const taskList = document.querySelector('.collection');
-const clearBtn = document.querySelector('clear-tasks');
+const clearBtn = document.querySelector('.clear-tasks');
 const filter = document.querySelector('#filter');
 const taskInput = document.querySelector('#task');
 
@@ -60,7 +60,7 @@ function addTask(e) {
     //Klasse für das li Element setzen
     li.className = 'collection-item';
     //TextNode erstellen und an li anhaengen
-    li.appendChild(document.createTextNode(task));
+    li.appendChild(document.createTextNode(taskInput.value));
     //neues link Element erstellen
     const link = document.createElement('a');
     //dem link Element Klassen zuweisen
@@ -72,7 +72,8 @@ function addTask(e) {
     //li an ul anfuegen
     taskList.appendChild(li);
     //Tasks im local storage ablegen --> Browser kann geschlossen und Seite kann refreshed werden ohne dass Daten verloren gehen
-    function storeTaskinLocalStorage(taskInput.value);
+    
+    storeTaskInLocalStorage(taskInput.value);
 
     //TaskInput loeschen
     taskInput.value = '';
@@ -81,7 +82,7 @@ function addTask(e) {
 }
 
 //Tasks im Lokalspeicher ablegen
-function storeTaskinLocalStorage(task) {
+function storeTaskInLocalStorage(task) {
     let tasks;
     if (localStorage.getItem('tasks') === null) {
         tasks = [];
@@ -126,7 +127,7 @@ function removeTaskFromLocalStorage(taskItem) {
 //Seltsamerweise wäre das sogar schneller, siehe https://jsperf.com/innerhtml-vs-removechild
 //Da es hier aber nur um eine einfache Aufgabenliste geht und niemand 10k+ Aufgaben hat nehme ich die einfache Variante....
 function clearTasks() {
-    taskList.innerHTML = "";
+    taskList.innerHTML='';
 }
 // Tasks Filtern
 //speichert den Text aus dem Eingabefeld konvertiert in Kleinbuchstaben in der Konstante "text"

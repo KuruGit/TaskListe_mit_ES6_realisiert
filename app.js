@@ -145,6 +145,12 @@ function filterTasks(e) {
             }
         }
     );
+
+    //Alle tasks aus local storage löschen
+    function clearTasksFromLocalStorage(){
+        localStorage.clear();
+    }
+
 }
 //Alle Eventlistener laden
 loadEventlisteners();

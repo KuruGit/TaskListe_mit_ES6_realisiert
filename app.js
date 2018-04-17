@@ -9,6 +9,12 @@ const taskInput = document.querySelector('#task');
 function loadEventlisteners(){
     //Task Event einfuegen
     form.addEventListener('submit',addTask);
+    //Tasks wieder entfernen
+    taskList.addEventListener('click', removeTask);
+    //Tasks alle leeren
+    clearBtn.addEventListener('click', clearTasks);
+    //Tasks Filtern
+    filter.addEventListener('keyup', filterTasks);
 }
 
 function addTask(e){
@@ -37,7 +43,40 @@ function addTask(e){
 
     e.preventDefault();
 }
+//angelegte Tasks wieder entfernen durch Klick auf das "x"
+function removeTask(e){
+if(e.target.parentElement.classList.contains('delete-item')){
+   if(confirm("Sind Sie sicher dass sie die Aufgabe löschen möchten?")){
+    e.target.parentElement.parentElement.remove();
+   }
+}
+}
 
+//Alle angelegten Tasks über den Button löschen
+//Alternativer Weg wäre mit einer Schleife durch alle Tasklist Kinder zu gehen und diese zu löschen.
+//Seltsamerweise wäre das sogar schneller, siehe https://jsperf.com/innerhtml-vs-removechild
+//Da es hier aber nur um eine einfache Aufgabenliste geht und niemand 10k+ Aufgaben hat nehme ich die einfache Variante....
+function clearTasks(){
+    taskList.innerHTML="";
+}
+// Tasks Filtern
+//speichert den Text aus dem Eingabefeld konvertiert in Kleinbuchstaben in der Konstante "text"
+//Danach rufen wir alle Elemente mit der Klasse .collection-item ab und loopen mit dem forEach durch diese durch.
+//ACHTUNG!: ForEach funktioniert hier nur weil querySelectorAll eine Nodelist anlegt, das kann man direkt loopen.
+//Alle anderen Varianten tun dies nicht und man müsste erst in ein Array konvertieren!
+function filterTasks(e){
+    const text = e.target.value.toLowerCase();
+    document.querySelectorAll('.collection-item').forEach(
+        function(task){
+            const item = task.firstChild.textContent;
+            if(item.toLowerCase().indexOf(text) != -1){
+                task.style.display = 'block';
+            } else {
+                task.style.display = 'none';
+            }
+        }
+    );
+}
 //Alle Eventlistener laden
 loadEventlisteners();
 

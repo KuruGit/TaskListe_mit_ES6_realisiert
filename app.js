@@ -7,6 +7,8 @@ const taskInput = document.querySelector('#task');
 
 //Funktionen 
 function loadEventlisteners(){
+    //DOM  load event damit Tasks korrekt in Taskliste persistieren
+    document.addEventListener('DOMContentLoaded', getTasks);
     //Task Event einfuegen
     form.addEventListener('submit',addTask);
     //Tasks wieder entfernen
@@ -18,6 +20,37 @@ function loadEventlisteners(){
 
 }
 
+// Tasks aus local Storage laden
+
+function getTasks(){
+    let tasks;
+if (localStorage.getItem('tasks') === null){
+    tasks=[];
+} else {
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+}
+    tasks.forEach(function(task){
+        //li Element erstellen
+    const li = document.createElement('li');
+    //Klasse für das li Element setzen
+    li.className = 'collection-item';
+    //TextNode erstellen und an li anhaengen
+    li.appendChild(document.createTextNode(taskInput.value));
+    //neues link Element erstellen
+    const link = document.createElement('a');
+    //dem link Element Klassen zuweisen
+    link.className = 'delete-item secondary-content';
+    //li Element fontawesome symbol einfuegen
+    link.innerHTML = '<i class="fa fa-times"></i>';
+    //Link an li anfuegen
+    li.appendChild(link);
+    //li an ul anfuegen
+    taskList.appendChild(li);
+    });
+
+    
+}
+
 function addTask(e){
     if(taskInput.value === '') {
         alert('Achtung, leere Aufgaben können nicht angelegt werden!');
@@ -27,7 +60,7 @@ function addTask(e){
     //Klasse für das li Element setzen
     li.className = 'collection-item';
     //TextNode erstellen und an li anhaengen
-    li.appendChild(document.createTextNode(taskInput.value));
+    li.appendChild(document.createTextNode(task));
     //neues link Element erstellen
     const link = document.createElement('a');
     //dem link Element Klassen zuweisen

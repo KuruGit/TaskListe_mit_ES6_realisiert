@@ -15,10 +15,10 @@ function loadEventlisteners(){
     clearBtn.addEventListener('click', clearTasks);
     //Tasks Filtern
     filter.addEventListener('keyup', filterTasks);
+
 }
 
 function addTask(e){
-
     if(taskInput.value === '') {
         alert('Achtung, leere Aufgaben können nicht angelegt werden!');
     }
@@ -38,12 +38,28 @@ function addTask(e){
     li.appendChild(link);
     //li an ul anfuegen
     taskList.appendChild(li);
+    //Tasks im local storage ablegen --> Browser kann geschlossen und Seite kann refreshed werden ohne dass Daten verloren gehen
+    function storeTaskinLocalStorage(taskInput.value);
+
     //TaskInput loeschen
     taskInput.value = '';
 
     e.preventDefault();
 }
-//angelegte Tasks wieder entfernen durch Klick auf das "x"
+
+//Tasks im Lokalspeicher ablegen
+function storeTaskinLocalStorage(task){
+let tasks;
+if (localStorage.getItem('tasks') === null){
+    tasks=[];
+} else {
+    tasks = JSON.parse(localStorage.getItem('tasks'));
+}
+tasks.push(task);
+
+localStorage.setItem('tasks', JSON.stringify(tasks));
+}
+//angelegte Tasks wieder entfernen durch Klick auf das Fontawesome "x"
 function removeTask(e){
 if(e.target.parentElement.classList.contains('delete-item')){
    if(confirm("Sind Sie sicher dass sie die Aufgabe löschen möchten?")){
